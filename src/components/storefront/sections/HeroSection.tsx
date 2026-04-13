@@ -1,11 +1,22 @@
 import Link from "next/link";
-import { RiverLines } from "@/components/brand";
+import Image from "next/image";
 import { Container } from "@/components/ui";
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center bg-indus-deep overflow-hidden">
-      <RiverLines />
+      {/* Hero image — right half, fades left into the dark background */}
+      <div className="absolute inset-y-0 right-0 w-full lg:w-1/2">
+        <Image
+          src="/images/hero/homepage.png"
+          alt="INDUS denim — India-first fit"
+          fill
+          className="object-cover object-top"
+          priority
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-indus-deep via-indus-deep/70 to-transparent lg:via-indus-deep/20" />
+      </div>
 
       <Container className="relative z-10 py-20">
         <div className="max-w-2xl">

@@ -1,28 +1,42 @@
 "use client";
 
 import { useState } from "react";
-import { JeansFlat } from "@/components/product";
+import Image from "next/image";
 
 export interface ImageGalleryProps {
-  tone: string;
+  sku: string;
   alt: string;
 }
 
-const VIEWS = ["front", "back"] as const;
+const VIEWS = ["front", "back", "detail", "on-model"] as const;
 type View = (typeof VIEWS)[number];
 
-export function ImageGallery({ tone, alt }: ImageGalleryProps) {
+const VIEW_LABELS: Record<View, string> = {
+  front: "Front",
+  back: "Back",
+  detail: "Detail",
+  "on-model": "On Model",
+};
+
+export function ImageGallery({ sku, alt }: ImageGalleryProps) {
   const [view, setView] = useState<View>("front");
+  const dir = `/images/products/${sku.toLowerCase()}`;
 
   return (
     <div className="space-y-3">
       <div
-        className="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-sand-selvedge aspect-[4/5] flex items-center justify-center p-8"
+        className="rounded-2xl overflow-hidden ring-1 ring-black/10 bg-sand-selvedge aspect-[4/5] relative"
         aria-label={`${alt} — ${view} view`}
       >
-        <div className="w-full max-w-xs">
-          <JeansFlat variant={view} tone={tone} />
-        </div>
+        <Image
+          key={view}
+          src={`${dir}/${view}.png`}
+          alt={`${alt} — ${VIEW_LABELS[view]} view`}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          priority
+        />
       </div>
 
       <div className="grid grid-cols-4 gap-2">
@@ -32,16 +46,20 @@ export function ImageGallery({ tone, alt }: ImageGalleryProps) {
             type="button"
             onClick={() => setView(v)}
             aria-pressed={view === v}
-            aria-label={`${v} view`}
-            className={`rounded-lg overflow-hidden ring-1 aspect-square flex items-center justify-center p-3 transition ${
+            aria-label={`${VIEW_LABELS[v]} view`}
+            className={`rounded-lg overflow-hidden ring-1 aspect-square relative transition ${
               view === v
-                ? "ring-indus-deep ring-2 bg-white"
-                : "ring-black/10 bg-white/60 hover:bg-white"
+                ? "ring-indus-deep ring-2"
+                : "ring-black/10 hover:ring-black/30"
             }`}
           >
-            <div className="w-full">
-              <JeansFlat variant={v} tone={tone} />
-            </div>
+            <Image
+              src={`${dir}/${v}.png`}
+              alt={VIEW_LABELS[v]}
+              fill
+              className="object-cover"
+              sizes="80px"
+            />
           </button>
         ))}
       </div>

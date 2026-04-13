@@ -55,7 +55,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
       <Container>
         <div className="py-10 lg:py-14 grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <ImageGallery tone={product.color} alt={product.name} />
+          <ImageGallery sku={product.sku} alt={product.name} />
           <ProductInfo product={product} />
         </div>
       </Container>

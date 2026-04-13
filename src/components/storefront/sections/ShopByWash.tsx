@@ -1,9 +1,13 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { Washes } from "@/brand";
-import { DenimSwatch } from "@/components/product";
 import { Container } from "@/components/ui";
+
+function washImageSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 
 const WASH_DESCRIPTIONS: Record<string, string> = {
   "Rinse Indigo": "One-dip indigo. Clean, dark, versatile.",
@@ -64,14 +68,24 @@ export function ShopByWash() {
         {Washes.map((wash) => (
           <div
             key={wash.name}
-            className="min-w-[240px] sm:min-w-[280px] snap-start shrink-0 rounded-2xl bg-white/5 ring-1 ring-white/10 p-6"
+            className="min-w-[240px] sm:min-w-[280px] snap-start shrink-0 rounded-2xl overflow-hidden bg-white/5 ring-1 ring-white/10"
           >
-            <div className="w-full">
-              <DenimSwatch name={wash.name} stops={wash.stops} />
+            <div className="relative w-full aspect-[4/3]">
+              <Image
+                src={`/images/washes/${washImageSlug(wash.name)}.png`}
+                alt={wash.name}
+                fill
+                className="object-cover"
+                sizes="280px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <p className="absolute bottom-3 left-4 text-sm font-semibold text-white">{wash.name}</p>
             </div>
-            <p className="mt-4 text-sm text-white/60 leading-relaxed">
-              {WASH_DESCRIPTIONS[wash.name] ?? "Responsibly finished."}
-            </p>
+            <div className="p-4">
+              <p className="text-sm text-white/60 leading-relaxed">
+                {WASH_DESCRIPTIONS[wash.name] ?? "Responsibly finished."}
+              </p>
+            </div>
           </div>
         ))}
 
