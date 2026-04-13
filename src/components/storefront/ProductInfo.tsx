@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui";
+import { useCart } from "@/lib/cart-context";
 import type { Product } from "@/lib/types";
 import { VariantSelector } from "./VariantSelector";
 
@@ -13,8 +14,16 @@ export interface ProductInfoProps {
 export function ProductInfo({ product }: ProductInfoProps) {
   const [size, setSize] = useState<number | null>(null);
   const [length, setLength] = useState<string | null>(null);
+  const { addItem, openCart } = useCart();
 
   const canAdd = size !== null && length !== null;
+
+  const handleAddToCart = () => {
+    if (!canAdd) return;
+
+    addItem(product, size, length);
+    openCart();
+  };
 
   return (
     <div>
@@ -46,7 +55,12 @@ export function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
-        <Button size="lg" disabled={!canAdd} className="flex-1 disabled:opacity-50 disabled:cursor-not-allowed">
+        <Button
+          size="lg"
+          disabled={!canAdd}
+          onClick={handleAddToCart}
+          className="flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           {canAdd ? "Add to Cart" : "Select size and length"}
         </Button>
         <Link href="/size-guide">

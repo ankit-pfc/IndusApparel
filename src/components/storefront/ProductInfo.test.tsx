@@ -2,20 +2,29 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ProductInfo } from "./ProductInfo";
+import { CartProvider } from "@/lib/cart-context";
 import { getProductBySlug } from "@/lib/products";
 
 const product = getProductBySlug("core-slim-taper-rinse")!;
 
+function renderWithCart() {
+  return render(
+    <CartProvider>
+      <ProductInfo product={product} />
+    </CartProvider>
+  );
+}
+
 describe("ProductInfo", () => {
   it("renders SKU, name, and price", () => {
-    render(<ProductInfo product={product} />);
+    renderWithCart();
     expect(screen.getByText(product.sku)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: product.name })).toBeInTheDocument();
     expect(screen.getByText(/2,999/)).toBeInTheDocument();
   });
 
   it("Add to Cart is disabled until size and length are chosen", async () => {
-    render(<ProductInfo product={product} />);
+    renderWithCart();
     const cta = screen.getByRole("button", {
       name: /select size and length/i,
     });
@@ -32,7 +41,7 @@ describe("ProductInfo", () => {
   });
 
   it("links to the size guide", () => {
-    render(<ProductInfo product={product} />);
+    renderWithCart();
     const link = screen.getByRole("link", { name: /size guide/i });
     expect(link).toHaveAttribute("href", "/size-guide");
   });

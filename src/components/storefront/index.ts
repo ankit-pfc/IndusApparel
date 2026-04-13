@@ -1,4 +1,5 @@
 export { CollectionHero } from "./CollectionHero";
+export { CartDrawer } from "./CartDrawer";
 export { ProductGrid } from "./ProductGrid";
 export { ProductFilterSidebar } from "./ProductFilterSidebar";
 export { SortDropdown } from "./SortDropdown";
