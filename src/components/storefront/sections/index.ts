@@ -1,0 +1,12 @@
+export { HeroSection } from "./HeroSection";
+export { TrustBar } from "./TrustBar";
+export { FeaturedProducts } from "./FeaturedProducts";
+export { ShopByFit } from "./ShopByFit";
+export { BrandStory } from "./BrandStory";
+export { ShopByWash } from "./ShopByWash";
+export { ConstructionDetails } from "./ConstructionDetails";
+export { ComparisonTable } from "./ComparisonTable";
+export { IndusPromise } from "./IndusPromise";
+export { Testimonials } from "./Testimonials";
+export { NewsletterCTA } from "./NewsletterCTA";
+export { ClosingStatement } from "./ClosingStatement";
